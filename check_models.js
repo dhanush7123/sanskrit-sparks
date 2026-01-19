@@ -1,5 +1,5 @@
 
-const apiKey = 'AIzaSyANy1Mx_02T-_egx1bPrcbN1NiivY_CJk8';
+const apiKey = 'AIzaSyAO98DMrf3tJ_e9oyT67537PfeMhCe7w_k';
 const url = `https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`;
 const fs = require('fs');
 

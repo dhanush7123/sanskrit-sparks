@@ -32,7 +32,7 @@ const ExplorePage = () => {
     }
 
     try {
-      // Using gemini-1.5-flash for better stability and performance
+      // Using gemini-1.5-flash (current stable model)
       const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiKey}`, {
         method: 'POST',
         headers: {
@@ -59,7 +59,9 @@ const ExplorePage = () => {
       });
 
       if (!response.ok) {
-        throw new Error(`API Error: ${response.status}`);
+        const errorData = await response.json().catch(() => ({}));
+        console.error('Gemini API Error:', response.status, errorData);
+        throw new Error(`API Error: ${response.status} ${errorData.error?.message || ''}`);
       }
 
       const data = await response.json();
@@ -74,7 +76,7 @@ const ExplorePage = () => {
       console.error('Saraswati exploration error:', error);
       toast({
         title: "Saraswati is meditating...",
-        description: "Could not connect to the wisdom source. Please try again.",
+        description: error.message || "Could not connect to the wisdom source. Please try again.",
         variant: "destructive",
       });
     } finally {
