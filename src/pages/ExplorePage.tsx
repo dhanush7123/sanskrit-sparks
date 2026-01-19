@@ -32,7 +32,7 @@ const ExplorePage = () => {
     }
 
     try {
-      // Using gemini-1.5-flash (current stable model)
+      // Using gemini-1.5-flash which is the current standard model
       const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiKey}`, {
         method: 'POST',
         headers: {
@@ -61,7 +61,8 @@ const ExplorePage = () => {
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         console.error('Gemini API Error:', response.status, errorData);
-        throw new Error(`API Error: ${response.status} ${errorData.error?.message || ''}`);
+        // Throw a descriptive error that will be shown in the toast
+        throw new Error(`API Error ${response.status}: ${errorData.error?.message || 'Unknown error'}`);
       }
 
       const data = await response.json();
