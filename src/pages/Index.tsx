@@ -5,12 +5,12 @@ import { Button } from '@/components/ui/button';
 import { SparkParticles } from '@/components/ui/SparkParticles';
 import { FloatingSanskrit } from '@/components/ui/FloatingSanskrit';
 import { Navbar } from '@/components/layout/Navbar';
-import { 
-  Scroll, 
-  Brain, 
-  BookOpen, 
-  Sparkles, 
-  ChevronRight 
+import {
+  Scroll,
+  Brain,
+  BookOpen,
+  Sparkles,
+  ChevronRight
 } from 'lucide-react';
 
 const features = [
@@ -28,7 +28,7 @@ const features = [
   },
   {
     icon: Sparkles,
-    title: 'The Oracle',
+    title: 'Saraswati',
     description: 'AI-powered Sanskrit word explorer',
     path: '/explore',
   },
@@ -80,8 +80,8 @@ const Index = () => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
             >
-              Embark on a journey through the mother of all languages. 
-              Discover ancient wisdom, explore sacred texts, and unlock 
+              Embark on a journey through the mother of all languages.
+              Discover ancient wisdom, explore sacred texts, and unlock
               the treasures of Vedic knowledge.
             </motion.p>
 
@@ -106,7 +106,7 @@ const Index = () => {
                   size="lg"
                   className="font-mukta text-lg px-8 py-6 gold-border"
                 >
-                  Explore The Oracle
+                  Explore Saraswati
                 </Button>
               </Link>
             </motion.div>
@@ -177,7 +177,7 @@ const Index = () => {
                 "Vasudhaiva Kutumbakam"
               </p>
               <p className="font-mukta text-muted-foreground">
-                The world is one family — a timeless Sanskrit teaching 
+                The world is one family — a timeless Sanskrit teaching
                 that reminds us of our universal connection.
               </p>
             </div>
@@ -187,9 +187,22 @@ const Index = () => {
 
       {/* Footer */}
       <footer className="py-10 px-4 border-t border-border relative z-20">
-        <div className="container mx-auto text-center">
+        <div className="container mx-auto text-center space-y-4 max-w-4xl">
+          <div className="space-y-2">
+            <p className="text-xl md:text-2xl font-cinzel text-foreground">
+              न गुरोरधिकं तत्त्वं ।
+            </p>
+            <p className="font-mukta text-secondary italic text-sm">
+              (No truth is higher than the Guru)
+            </p>
+          </div>
+          <p className="font-mukta text-muted-foreground text-sm leading-relaxed">
+            Website by <span className="text-foreground font-semibold">Dhanush L.</span> &amp; <span className="text-foreground font-semibold">Avinash V. J.</span>
+            <br />
+            Guided by <span className="text-foreground font-semibold">Dr. Veena Divya Krishnappa</span> and <span className="text-foreground font-semibold">Dr. Rohini S. Hallikar</span>
+          </p>
           <p className="font-mukta text-muted-foreground text-sm">
-            © 2024 Sanskrit for Curious. Preserving the wisdom of ages.
+            © 2026 Sanskrit Spark
           </p>
         </div>
       </footer>

@@ -9,28 +9,35 @@ import TimelinePage from "./pages/TimelinePage";
 import QuizPage from "./pages/QuizPage";
 import ExplorePage from "./pages/ExplorePage";
 import ArticlesPage from "./pages/ArticlesPage";
+import ArticleDetail from "./pages/ArticleDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/auth" element={<AuthPage />} />
-          <Route path="/timeline" element={<TimelinePage />} />
-          <Route path="/quiz" element={<QuizPage />} />
-          <Route path="/explore" element={<ExplorePage />} />
-          <Route path="/articles" element={<ArticlesPage />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  // Debug: Check if React is mounting
+  console.log('🚀 App component rendering...');
+  
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/auth" element={<AuthPage />} />
+            <Route path="/timeline" element={<TimelinePage />} />
+            <Route path="/quiz" element={<QuizPage />} />
+            <Route path="/explore" element={<ExplorePage />} />
+            <Route path="/articles" element={<ArticlesPage />} />
+            <Route path="/articles/:id" element={<ArticleDetail />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;

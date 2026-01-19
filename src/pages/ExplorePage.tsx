@@ -18,17 +18,62 @@ const ExplorePage = () => {
     setLoading(true);
     setResult(null);
 
+    const geminiKey = import.meta.env.VITE_GEMINI_API_KEY;
+
+    if (!geminiKey || geminiKey.trim() === '') {
+      toast({
+        title: 'Configuration Error',
+        description: 'Gemini API key is missing. Please check your .env file.',
+        variant: 'destructive',
+      });
+      setLoading(false);
+      return;
+    }
+
     try {
-      const { data, error } = await supabase.functions.invoke('sanskrit-oracle', {
-        body: { word: query.trim() }
+      // Using gemini-flash-latest (stable alias) to avoid rate limits on experimental models
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${geminiKey}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: [{
+            parts: [{
+              text: `Provide the following for the word or concept: "${query.trim()}".
+              
+              Format the output exactly as follows:
+              
+              # ${query.trim()} (Transliteration)
+              
+              1. **Devanagari:** [The Sanskrit script]
+              2. **Etymology:** [Root and basic meaning]
+              3. **Cultural Significance:** [Brief explanation of its importance]
+              4. **Usage:** [A simple Sanskrit sentence using the word, followed by its English translation]
+              
+              Keep it concise and follow this structure strictly.`
+            }]
+          }]
+        }),
       });
 
-      if (error) throw error;
-      setResult(data.result);
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      const generatedText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+      if (!generatedText) {
+        throw new Error('No result generated');
+      }
+
+      setResult(generatedText);
     } catch (error: any) {
+      console.error('Saraswati exploration error:', error);
       toast({
-        title: "The Oracle is meditating...",
-        description: "Please try again in a moment.",
+        title: "Saraswati is meditating...",
+        description: "Could not connect to the wisdom source. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -38,8 +83,18 @@ const ExplorePage = () => {
 
   const speakResult = () => {
     if (!result) return;
-    const utterance = new SpeechSynthesisUtterance(result.replace(/[#*_]/g, ''));
+    // Clean up markdown/formatting for speech
+    const textToSpeak = result.replace(/[*#_`]/g, '');
+    const utterance = new SpeechSynthesisUtterance(textToSpeak);
     utterance.rate = 0.9;
+
+    // Try to set a Hindi/Indian voice if available for better Sanskrit pronunciation
+    const voices = window.speechSynthesis.getVoices();
+    const indianVoice = voices.find(v => v.lang.includes('hi') || v.lang.includes('IN'));
+    if (indianVoice) {
+      utterance.voice = indianVoice;
+    }
+
     speechSynthesis.speak(utterance);
   };
 
@@ -52,7 +107,7 @@ const ExplorePage = () => {
         <div className="container mx-auto max-w-3xl">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
             <Sparkles className="w-12 h-12 text-primary mx-auto mb-4" />
-            <h1 className="text-4xl md:text-5xl font-cinzel font-bold text-foreground mb-4">The Oracle</h1>
+            <h1 className="text-4xl md:text-5xl font-cinzel font-bold text-foreground mb-4">Saraswati</h1>
             <p className="font-mukta text-muted-foreground">Enter any word to discover its Sanskrit essence</p>
           </motion.div>
 
@@ -75,7 +130,7 @@ const ExplorePage = () => {
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="talapatra-card p-8">
               <div className="relative z-10">
                 <div className="flex justify-between items-start mb-4">
-                  <h3 className="font-cinzel text-xl text-secondary">Oracle's Wisdom</h3>
+                  <h3 className="font-cinzel text-xl text-secondary">Saraswati's Wisdom</h3>
                   <Button variant="ghost" size="icon" onClick={speakResult}>
                     <Volume2 className="w-5 h-5" />
                   </Button>

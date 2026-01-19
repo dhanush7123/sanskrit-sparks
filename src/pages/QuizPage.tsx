@@ -1,13 +1,23 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Navbar } from '@/components/layout/Navbar';
 import { FloatingSanskrit } from '@/components/ui/FloatingSanskrit';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { useStore } from '@/store/useStore';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 import { Trophy, Flame, Clock, ArrowRight, CheckCircle, XCircle, Medal } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
 
 interface Question {
   id: number;
@@ -122,16 +132,120 @@ const QuizPage = () => {
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(30);
   const [answers, setAnswers] = useState<boolean[]>([]);
-  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>(mockLeaderboard);
+  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
+  const [isGuest, setIsGuest] = useState(false);
+  const [showGuestDialog, setShowGuestDialog] = useState(false);
+  const [guestName, setGuestName] = useState('');
+  const [guestNameError, setGuestNameError] = useState('');
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Fetch leaderboard from Supabase
+  const fetchLeaderboard = async () => {
+    try {
+      const { data, error } = await (supabase
+        .from('leaderboard' as any) as any) // Cast to any to bypass strict type checks for missing table
+        .select('*')
+        .order('score', { ascending: false })
+        .limit(10);
+
+      if (error) {
+        console.warn('Leaderboard fetch error (table might be missing):', error);
+        return;
+      }
+
+      if (data && data.length > 0) {
+        const mappedData: LeaderboardEntry[] = data.map((entry: any, index: number) => ({
+          rank: index + 1,
+          name: entry.username || entry.name || 'Anonymous',
+          score: entry.score,
+        }));
+        setLeaderboard(mappedData);
+      }
+    } catch (err) {
+      console.error('Unexpected error fetching leaderboard:', err);
+    }
+  };
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    // Load initial leaderboard (mock first, then try DB)
+    setLeaderboard(mockLeaderboard);
+    fetchLeaderboard();
+  }, []);
+
+  const fetchQuestions = async () => {
+    setIsLoading(true);
+    const geminiKey = import.meta.env.VITE_GEMINI_API_KEY;
+
+    if (!geminiKey) {
       toast({
-        title: "Login Required",
-        description: "Please enter the Gurukul to participate in the Quiz Arena.",
+        title: "API Key Error",
+        description: "Gemini API key is missing.",
+        variant: "destructive",
       });
+      setIsLoading(false);
+      return false;
     }
-  }, [isAuthenticated]);
+
+    try {
+      const prompt = `Generate 8 unique and engaging multiple-choice questions about Sanskrit language, Vedic culture, or Indian philosophy.
+      
+      Format the output strictly as a JSON array of objects with this structure:
+      [
+        {
+          "id": 1,
+          "question": "The question text",
+          "sanskritTerm": "Relevant Sanskrit word in Devanagari",
+          "options": ["Option 1", "Option 2", "Option 3", "Option 4"],
+          "correctAnswer": 0, // Index of correct option (0-3)
+          "explanation": "Brief explanation of the answer"
+        }
+      ]
+      
+      Do not include markdown formatting like \`\`\`json. Just the raw JSON array. Ensure questions are diverse.`;
+
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiKey}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }]
+        }),
+      });
+
+      if (!response.ok) throw new Error('Failed to fetch questions');
+
+      const data = await response.json();
+      const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+      if (!text) throw new Error('No data received');
+
+      // Clean up markdown if present
+      const cleanText = text.replace(/```json/g, '').replace(/```/g, '').trim();
+      const newQuestions = JSON.parse(cleanText);
+
+      // Ensure IDs are correct
+      const formattedQuestions = newQuestions.map((q: any, index: number) => ({
+        ...q,
+        id: index + 1
+      }));
+
+      setQuestions(formattedQuestions);
+      return true;
+    } catch (error) {
+      console.error('Error fetching questions:', error);
+      toast({
+        title: "Wisdom Gathering Failed",
+        description: "Could not generate new questions. Using default set.",
+        variant: "destructive",
+      });
+      setQuestions(quizQuestions); // Fallback to default questions
+      return true;
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -143,33 +257,61 @@ const QuizPage = () => {
     return () => clearTimeout(timer);
   }, [timeLeft, gameState, showExplanation]);
 
-  const startQuiz = () => {
-    setGameState('playing');
-    setCurrentQuestion(0);
-    setScore(0);
-    setAnswers([]);
-    setTimeLeft(30);
+  const startQuiz = async () => {
+    const success = await fetchQuestions();
+    if (success) {
+      setGameState('playing');
+      setCurrentQuestion(0);
+      setScore(0);
+      setAnswers([]);
+      setTimeLeft(30);
+    }
+  };
+
+  const handleGuestLogin = async () => {
+    if (!guestName.trim()) {
+      setGuestNameError('Please enter a name');
+      return;
+    }
+
+    if (guestName.length < 3) {
+      setGuestNameError('Name must be at least 3 characters');
+      return;
+    }
+
+    // Check availability (optional, for now just proceed)
+    // We could check if name exists in DB here:
+    /*
+    const { data } = await supabase.from('leaderboard' as any).select('id').eq('username', guestName).single();
+    if (data) { setGuestNameError('Name taken'); return; }
+    */
+
+    setIsGuest(true);
+    setShowGuestDialog(false);
+    startQuiz();
   };
 
   const handleAnswer = (answerIndex: number) => {
     if (selectedAnswer !== null) return;
-    
+
     setSelectedAnswer(answerIndex);
-    const isCorrect = answerIndex === quizQuestions[currentQuestion].correctAnswer;
+    const isCorrect = answerIndex === questions[currentQuestion].correctAnswer;
     setAnswers([...answers, isCorrect]);
-    
+
     if (isCorrect) {
       const timeBonus = Math.floor(timeLeft / 3);
       const points = 10 + timeBonus;
       setScore(score + points);
-      addKarmaPoints(points);
+      if (isAuthenticated && !isGuest) {
+        addKarmaPoints(points);
+      }
     }
-    
+
     setShowExplanation(true);
   };
 
   const nextQuestion = () => {
-    if (currentQuestion < quizQuestions.length - 1) {
+    if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
       setSelectedAnswer(null);
       setShowExplanation(false);
@@ -180,23 +322,57 @@ const QuizPage = () => {
     }
   };
 
-  const updateLeaderboard = () => {
-    const userName = user?.name || 'Seeker';
+  const updateLeaderboard = async () => {
+    // Determine player name
+    const playerName = user?.name || (isGuest ? guestName : 'Seeker');
+    const finalScore = (isAuthenticated && !isGuest ? karmaPoints : 0) + score;
+
     const newEntry: LeaderboardEntry = {
       rank: 0,
-      name: userName,
-      score: karmaPoints + score,
+      name: playerName,
+      score: finalScore,
     };
-    
+
+    // Update local state immediately for UI responsiveness
     const updatedLeaderboard = [...leaderboard, newEntry]
       .sort((a, b) => b.score - a.score)
       .slice(0, 5)
       .map((entry, index) => ({ ...entry, rank: index + 1 }));
-    
     setLeaderboard(updatedLeaderboard);
+
+    // Persist to Supabase
+    try {
+      if (isAuthenticated || isGuest) {
+        // Try to insert into DB
+        const { error } = await (supabase
+          .from('leaderboard' as any) as any)
+          .insert([
+            {
+              username: playerName,
+              score: finalScore,
+              created_at: new Date().toISOString()
+            }
+          ]);
+
+        if (error) {
+          console.error('Error saving score:', error);
+          toast({
+            title: "Score Not Saved",
+            description: "Could not save to the divine records (Database error).",
+            variant: "destructive",
+          });
+        } else {
+          // If successful, re-fetch to get accurate global rankings
+          fetchLeaderboard();
+        }
+      }
+    } catch (err) {
+      console.error('Unexpected error updating leaderboard:', err);
+    }
   };
 
-  const question = quizQuestions[currentQuestion];
+  // Safe access for current question since questions are now stateful
+  const question = questions.length > 0 ? questions[currentQuestion] : null;
 
   return (
     <div className="min-h-screen vedic-gradient relative">
@@ -221,8 +397,8 @@ const QuizPage = () => {
                   Jnana Yajna - The Sacrifice of Knowledge
                 </p>
                 <p className="font-mukta text-muted-foreground max-w-xl mx-auto mb-10">
-                  Test your understanding of Sanskrit concepts. 
-                  Earn Karma Points for correct answers — the faster you answer, 
+                  Test your understanding of Sanskrit concepts.
+                  Earn Karma Points for correct answers — the faster you answer,
                   the more points you earn!
                 </p>
 
@@ -250,7 +426,12 @@ const QuizPage = () => {
                   </div>
                 </div>
 
-                {isAuthenticated ? (
+                {isLoading ? (
+                  <div className="flex flex-col items-center justify-center my-10">
+                    <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
+                    <p className="font-mukta text-lg text-foreground">Consulting the Rishis...</p>
+                  </div>
+                ) : isAuthenticated ? (
                   <Button
                     onClick={startQuiz}
                     size="lg"
@@ -260,13 +441,24 @@ const QuizPage = () => {
                     <ArrowRight className="ml-2 w-5 h-5" />
                   </Button>
                 ) : (
-                  <Button
-                    onClick={() => navigate('/auth')}
-                    size="lg"
-                    className="font-mukta text-lg px-10 py-6"
-                  >
-                    Login to Play
-                  </Button>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <Button
+                      onClick={() => navigate('/auth')}
+                      size="lg"
+                      className="font-mukta text-lg px-10 py-6 saffron-glow"
+                    >
+                      Login to Play
+                      <ArrowRight className="ml-2 w-5 h-5" />
+                    </Button>
+                    <Button
+                      onClick={() => setShowGuestDialog(true)}
+                      variant="outline"
+                      size="lg"
+                      className="font-mukta text-lg px-10 py-6"
+                    >
+                      Play as Guest
+                    </Button>
+                  </div>
                 )}
 
                 {/* Leaderboard */}
@@ -275,26 +467,39 @@ const QuizPage = () => {
                     कीर्ति स्तम्भ — Pillar of Victory
                   </h2>
                   <div className="talapatra-card p-6 max-w-md mx-auto">
-                    <div className="relative z-10 space-y-3">
-                      {leaderboard.map((entry) => (
-                        <div
-                          key={entry.rank}
-                          className={`flex items-center justify-between p-3 rounded-lg ${
-                            entry.rank <= 3 ? 'bg-primary/10' : 'bg-background/30'
-                          }`}
-                        >
-                          <div className="flex items-center gap-3">
-                            {getRankIcon(entry.rank)}
-                            <span className="font-mukta text-foreground">{entry.name}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Flame className="w-4 h-4 text-primary" />
-                            <span className="font-mukta font-semibold text-secondary">
-                              {entry.score}
-                            </span>
-                          </div>
+                    <div className="relative z-10">
+                      {leaderboard.length === 0 ? (
+                        <div className="text-center py-8">
+                          <div className="text-4xl mb-4">🏆</div>
+                          <p className="font-mukta text-muted-foreground">
+                            No seekers have taken the challenge yet.
+                          </p>
+                          <p className="font-mukta text-sm text-muted-foreground mt-2">
+                            Be the first to earn karma points!
+                          </p>
                         </div>
-                      ))}
+                      ) : (
+                        <div className="space-y-3">
+                          {leaderboard.map((entry) => (
+                            <div
+                              key={entry.rank}
+                              className={`flex items-center justify-between p-3 rounded-lg ${entry.rank <= 3 ? 'bg-primary/10' : 'bg-background/30'
+                                }`}
+                            >
+                              <div className="flex items-center gap-3">
+                                {getRankIcon(entry.rank)}
+                                <span className="font-mukta text-foreground">{entry.name}</span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <Flame className="w-4 h-4 text-primary" />
+                                <span className="font-mukta font-semibold text-secondary">
+                                  {entry.score}
+                                </span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -352,7 +557,7 @@ const QuizPage = () => {
                     const isSelected = selectedAnswer === index;
                     const isCorrect = index === question.correctAnswer;
                     const showResult = showExplanation;
-                    
+
                     let optionClass = 'bg-card hover:bg-card/80 border-border';
                     if (showResult) {
                       if (isCorrect) {
@@ -367,9 +572,8 @@ const QuizPage = () => {
                         key={index}
                         onClick={() => handleAnswer(index)}
                         disabled={showExplanation}
-                        className={`p-4 rounded-lg border-2 text-left transition-all ${optionClass} ${
-                          !showExplanation ? 'hover:border-primary cursor-pointer' : ''
-                        }`}
+                        className={`p-4 rounded-lg border-2 text-left transition-all ${optionClass} ${!showExplanation ? 'hover:border-primary cursor-pointer' : ''
+                          }`}
                         whileHover={!showExplanation ? { scale: 1.02 } : {}}
                         whileTap={!showExplanation ? { scale: 0.98 } : {}}
                       >
@@ -442,15 +646,16 @@ const QuizPage = () => {
                     <p className="text-4xl font-cinzel font-bold text-foreground mb-2">
                       {score}
                     </p>
-                    <p className="font-mukta text-secondary mb-6">Karma Points Earned</p>
-                    
+                    <p className="font-mukta text-secondary mb-6">
+                      {isAuthenticated && !isGuest ? 'Karma Points Earned' : 'Points Scored'}
+                    </p>
+
                     <div className="flex justify-center gap-4 mb-6">
                       {answers.map((correct, i) => (
                         <div
                           key={i}
-                          className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                            correct ? 'bg-green-500/20 text-green-500' : 'bg-destructive/20 text-destructive'
-                          }`}
+                          className={`w-8 h-8 rounded-full flex items-center justify-center ${correct ? 'bg-green-500/20 text-green-500' : 'bg-destructive/20 text-destructive'
+                            }`}
                         >
                           {correct ? <CheckCircle className="w-4 h-4" /> : <XCircle className="w-4 h-4" />}
                         </div>
@@ -477,10 +682,56 @@ const QuizPage = () => {
                   >
                     Return Home
                   </Button>
+                  {isGuest && (
+                    <Button
+                      onClick={() => navigate('/auth')}
+                      className="font-mukta"
+                    >
+                      Login to Save Progress
+                    </Button>
+                  )}
                 </div>
               </motion.div>
             )}
           </AnimatePresence>
+
+          {/* Guest Login Dialog */}
+          <Dialog open={showGuestDialog} onOpenChange={setShowGuestDialog}>
+            <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                <DialogTitle className="font-cinzel text-2xl">Enter Guest Name</DialogTitle>
+                <DialogDescription className="font-mukta">
+                  Please enter a unique name to join the leaderboard.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="space-y-4 py-4">
+                <div className="space-y-2">
+                  <Label htmlFor="guestName">Name</Label>
+                  <Input
+                    id="guestName"
+                    placeholder="E.g. Eklavya"
+                    value={guestName}
+                    onChange={(e) => {
+                      setGuestName(e.target.value);
+                      if (e.target.value.length >= 3) setGuestNameError('');
+                    }}
+                    onKeyDown={(e) => e.key === 'Enter' && handleGuestLogin()}
+                  />
+                  {guestNameError && (
+                    <p className="text-sm text-destructive">{guestNameError}</p>
+                  )}
+                </div>
+              </div>
+              <DialogFooter>
+                <Button variant="outline" onClick={() => setShowGuestDialog(false)}>
+                  Cancel
+                </Button>
+                <Button onClick={handleGuestLogin} className="saffron-glow">
+                  Start Quiz
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
     </div>

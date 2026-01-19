@@ -10,7 +10,7 @@ const navLinks = [
   { path: '/', label: 'Home' },
   { path: '/timeline', label: 'Timeline' },
   { path: '/quiz', label: 'Quiz Arena' },
-  { path: '/explore', label: 'The Oracle' },
+  { path: '/explore', label: 'Saraswati' },
   { path: '/articles', label: 'Articles' },
 ];
 
@@ -37,16 +37,26 @@ export const Navbar = () => {
     >
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2">
-            <motion.span
-              className="text-2xl font-cinzel font-bold text-primary"
-              whileHover={{ scale: 1.05 }}
-            >
-              संस्कृत
-            </motion.span>
-            <span className="text-sm font-mukta text-muted-foreground hidden sm:block">
-              for Curious
-            </span>
+          <Link to="/" className="flex items-center gap-3">
+            <div className="hidden sm:flex items-center justify-center h-10 w-10 rounded-lg bg-background border border-border shadow-sm overflow-hidden">
+              <img
+                src="/college-logo.png"
+                alt="College logo"
+                className="h-9 w-9 object-contain"
+                loading="lazy"
+              />
+            </div>
+            <div className="flex flex-col">
+              <motion.span
+                className="text-2xl font-cinzel font-bold text-primary leading-none"
+                whileHover={{ scale: 1.05 }}
+              >
+                संस्कृत Spark
+              </motion.span>
+              <span className="text-xs font-mukta text-muted-foreground">
+                R V College of Engineering
+              </span>
+            </div>
           </Link>
 
           <div className="hidden md:flex items-center gap-6">
@@ -56,11 +66,10 @@ export const Navbar = () => {
                 to={link.path}
                 className="relative group"
               >
-                <span className={`font-mukta text-sm transition-colors ${
-                  location.pathname === link.path
-                    ? 'text-primary font-semibold'
-                    : 'text-foreground hover:text-primary'
-                }`}>
+                <span className={`font-mukta text-sm transition-colors ${location.pathname === link.path
+                  ? 'text-primary font-semibold'
+                  : 'text-foreground hover:text-primary'
+                  }`}>
                   {link.label}
                 </span>
                 {location.pathname === link.path && (
