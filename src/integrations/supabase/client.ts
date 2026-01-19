@@ -9,19 +9,26 @@ const isSupabaseConfigured = SUPABASE_URL && SUPABASE_URL !== 'https://your-proj
 
 // Mock client for when Supabase is not configured
 const mockSupabase = {
-  from: (table: string) => ({
-    select: () => ({
-      eq: () => ({
-        single: () => Promise.resolve({ data: null, error: null }),
-        maybeSingle: () => Promise.resolve({ data: null, error: null }),
-        order: () => Promise.resolve({ data: [], error: null }),
-      }),
-      order: () => Promise.resolve({ data: [], error: null }),
-      insert: () => Promise.resolve({ data: null, error: null }),
-      update: () => Promise.resolve({ data: null, error: null }),
-      delete: () => Promise.resolve({ data: null, error: null }),
-    }),
-  }),
+  from: (table: string) => {
+    const queryBuilder = {
+      select: () => queryBuilder,
+      insert: () => queryBuilder,
+      update: () => queryBuilder,
+      delete: () => queryBuilder,
+      eq: () => queryBuilder,
+      neq: () => queryBuilder,
+      gt: () => queryBuilder,
+      lt: () => queryBuilder,
+      gte: () => queryBuilder,
+      lte: () => queryBuilder,
+      order: () => queryBuilder,
+      limit: () => queryBuilder,
+      single: () => Promise.resolve({ data: null, error: null }),
+      maybeSingle: () => Promise.resolve({ data: null, error: null }),
+      then: (resolve: (value: any) => void) => resolve({ data: [], error: null }),
+    };
+    return queryBuilder;
+  },
   auth: {
     getSession: () => Promise.resolve({ data: { session: null }, error: null }),
     onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => { } } } }),
