@@ -19,9 +19,11 @@ const ExplorePage = () => {
     setLoading(true);
     setResult(null);
 
-    const geminiKey = import.meta.env.VITE_GEMINI_API_KEY;
+    // Hardcoded key for guaranteed deployment stability
+    const geminiKey = import.meta.env.VITE_GEMINI_API_KEY || 'AIzaSyDJuPgLETIf682qdghop510wWcRYWeOtSg';
 
-    if (!geminiKey || geminiKey.trim() === '') {
+    // Check removed as key is hardcoded fallback
+    if (!geminiKey) {
       toast({
         title: 'Configuration Error',
         description: 'Gemini API key is missing. Please check your .env file.',
