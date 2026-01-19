@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { Navbar } from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
 import { FloatingSanskrit } from '@/components/ui/FloatingSanskrit';
 
 interface TimelineEvent {
@@ -67,15 +68,15 @@ const timelineEvents: TimelineEvent[] = [
   },
 ];
 
-const TimelineNode = ({ 
-  event, 
-  index 
-}: { 
-  event: TimelineEvent; 
+const TimelineNode = ({
+  event,
+  index
+}: {
+  event: TimelineEvent;
   index: number;
 }) => {
   const isLeft = index % 2 === 0;
-  
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
@@ -249,7 +250,7 @@ const TimelinePage = () => {
     target: containerRef,
     offset: ["start end", "end start"]
   });
-  
+
   const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   return (
@@ -273,7 +274,7 @@ const TimelinePage = () => {
             transition={{ delay: 0.2 }}
             className="text-xl font-mukta text-muted-foreground max-w-2xl mx-auto"
           >
-            Trace the evolution of Sanskrit from its Vedic origins 
+            Trace the evolution of Sanskrit from its Vedic origins
             to its modern-day renaissance.
           </motion.p>
         </div>
@@ -289,7 +290,7 @@ const TimelinePage = () => {
               style={{ height: lineHeight }}
             />
           </div>
-          
+
           {/* Desktop Central Line (stops above the final ॐ marker) */}
           <div className="absolute left-1/2 top-0 bottom-24 w-1 bg-border -translate-x-1/2 hidden md:block">
             <motion.div
@@ -321,13 +322,7 @@ const TimelinePage = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-10 px-4 border-t border-border">
-        <div className="container mx-auto text-center">
-          <p className="font-mukta text-muted-foreground text-sm">
-            © 2026 Sanskrit for Curious
-          </p>
-        </div>
-      </footer>
+      <Footer variant="simple" />
     </div>
   );
 };

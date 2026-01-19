@@ -12,6 +12,7 @@ import {
   VolumeX,
   Languages,
 } from 'lucide-react';
+import Footer from '@/components/layout/Footer';
 
 type StoryMessage = {
   id: string;
@@ -455,6 +456,7 @@ User prompt (optional): ${userPrompt}`;
           </div>
         </div>
       </div>
+      <Footer variant="simple" />
     </div>
   );
 };

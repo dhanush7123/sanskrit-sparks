@@ -1,0 +1,702 @@
+[
+    {
+        "id": 1,
+        "question": "What is the Sanskrit word for 'knowledge'?",
+        "sanskritTerm": "ज्ञान",
+        "options": [
+            "Jnana",
+            "Vidya",
+            "Buddhi",
+            "Prajna"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Jnana (ज्ञान) means knowledge or wisdom in Sanskrit.",
+        "difficulty": "easy"
+    },
+    {
+        "id": 2,
+        "question": "Which Veda is known as the 'Veda of Melodies'?",
+        "sanskritTerm": "सामवेद",
+        "options": [
+            "Rigveda",
+            "Yajurveda",
+            "Samaveda",
+            "Atharvaveda"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Samaveda is called the Veda of melodies as it consists of musical chants.",
+        "difficulty": "medium"
+    },
+    {
+        "id": 3,
+        "question": "What does 'Moksha' represent in Hindu philosophy?",
+        "sanskritTerm": "मोक्ष",
+        "options": [
+            "Duty",
+            "Desire",
+            "Liberation",
+            "Wealth"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Moksha means liberation from the cycle of birth and death.",
+        "difficulty": "medium"
+    },
+    {
+        "id": 4,
+        "question": "The term 'Pranayama' refers to?",
+        "sanskritTerm": "प्राणायाम",
+        "options": [
+            "Meditation",
+            "Breath control",
+            "Physical postures",
+            "Chanting"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Pranayama is the practice of breath control in yoga.",
+        "difficulty": "easy"
+    },
+    {
+        "id": 5,
+        "question": "Which sage is credited with composing the Mahabharata?",
+        "sanskritTerm": "व्यास",
+        "options": [
+            "Valmiki",
+            "Vyasa",
+            "Vishwamitra",
+            "Vasishtha"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Sage Vyasa is credited with composing the Mahabharata.",
+        "difficulty": "easy"
+    },
+    {
+        "id": 6,
+        "question": "What is the meaning of 'Satya'?",
+        "sanskritTerm": "सत्य",
+        "options": [
+            "Peace",
+            "Truth",
+            "Non-violence",
+            "Compassion"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Satya means truth in Sanskrit.",
+        "difficulty": "easy"
+    },
+    {
+        "id": 7,
+        "question": "'Artha' in the four Purusharthas refers to?",
+        "sanskritTerm": "अर्थ",
+        "options": [
+            "Righteousness",
+            "Wealth/Prosperity",
+            "Desire",
+            "Liberation"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Artha refers to wealth, prosperity, and material success.",
+        "difficulty": "medium"
+    },
+    {
+        "id": 8,
+        "question": "Which classical text is known as the 'Science of Life'?",
+        "sanskritTerm": "आयुर्वेद",
+        "options": [
+            "Vedanta",
+            "Ayurveda",
+            "Samkhya",
+            "Nyaya"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Ayurveda, meaning 'science of life', describes ancient Indian medicine.",
+        "difficulty": "easy"
+    },
+    {
+        "id": 9,
+        "question": "The word 'Guru' literally means?",
+        "sanskritTerm": "गुरु",
+        "options": [
+            "Teacher",
+            "Dispeller of darkness",
+            "Master",
+            "Wise one"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Guru comes from 'Gu' (darkness) and 'Ru' (remover), meaning dispeller of darkness.",
+        "difficulty": "medium"
+    },
+    {
+        "id": 10,
+        "question": "What does 'Tapas' signify?",
+        "sanskritTerm": "तपस्",
+        "options": [
+            "Prayer",
+            "Austerity/Discipline",
+            "Worship",
+            "Study"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Tapas means austerity, discipline, or spiritual practice.",
+        "difficulty": "medium"
+    },
+    {
+        "id": 11,
+        "question": "In which language were the Vedas originally composed?",
+        "sanskritTerm": "वैदिक संस्कृत",
+        "options": [
+            "Classical Sanskrit",
+            "Vedic Sanskrit",
+            "Prakrit",
+            "Pali"
+        ],
+        "correctAnswer": 1,
+        "explanation": "The Vedas were composed in Vedic Sanskrit, an ancient form of Sanskrit.",
+        "difficulty": "medium"
+    },
+    {
+        "id": 12,
+        "question": "'Kama' in Purusharthas represents?",
+        "sanskritTerm": "काम",
+        "options": [
+            "Duty",
+            "Wealth",
+            "Desire/Pleasure",
+            "Liberation"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Kama represents legitimate desire and pleasure.",
+        "difficulty": "medium"
+    },
+    {
+        "id": 13,
+        "question": "What is 'Mantra'?",
+        "sanskritTerm": "मन्त्र",
+        "options": [
+            "Sacred sound/chant",
+            "Prayer book",
+            "Ritual",
+            "Meditation"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Mantra is a sacred sound, word, or phrase used in meditation and rituals.",
+        "difficulty": "easy"
+    },
+    {
+        "id": 14,
+        "question": "The Bhagavad Gita is part of which epic?",
+        "sanskritTerm": "भगवद्गीता",
+        "options": [
+            "Ramayana",
+            "Mahabharata",
+            "Puranas",
+            "Upanishads"
+        ],
+        "correctAnswer": 1,
+        "explanation": "The Bhagavad Gita is part of the Mahabharata epic.",
+        "difficulty": "easy"
+    },
+    {
+        "id": 15,
+        "question": "What does 'Asana' mean in yoga?",
+        "sanskritTerm": "आसन",
+        "options": [
+            "Breathing",
+            "Posture/Seat",
+            "Meditation",
+            "Chanting"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Asana literally means seat or posture in yoga practice.",
+        "difficulty": "easy"
+    },
+    {
+        "id": 16,
+        "question": "'Shraddha' translates to?",
+        "sanskritTerm": "श्रद्धा",
+        "options": [
+            "Love",
+            "Faith/Devotion",
+            "Wisdom",
+            "Strength"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Shraddha means faith, reverence, or devotion.",
+        "difficulty": "medium"
+    },
+    {
+        "id": 17,
+        "question": "Which text is known as the 'Fifth Veda'?",
+        "sanskritTerm": "पञ्चम वेद",
+        "options": [
+            "Bhagavad Gita",
+            "Ramayana",
+            "Mahabharata",
+            "Puranas"
+        ],
+        "correctAnswer": 2,
+        "explanation": "The Mahabharata is sometimes called the Fifth Veda.",
+        "difficulty": "hard"
+    },
+    {
+        "id": 18,
+        "question": "What is the meaning of 'Samsara'?",
+        "sanskritTerm": "संसार",
+        "options": [
+            "Heaven",
+            "Cycle of rebirth",
+            "Hell",
+            "Final destination"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Samsara refers to the cycle of death and rebirth.",
+        "difficulty": "medium"
+    },
+    {
+        "id": 19,
+        "question": "'Viveka' means?",
+        "sanskritTerm": "विवेक",
+        "options": [
+            "Love",
+            "Discernment/Discrimination",
+            "Compassion",
+            "Courage"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Viveka means discrimination or discernment between real and unreal.",
+        "difficulty": "hard"
+    },
+    {
+        "id": 20,
+        "question": "The eight-fold path of yoga was codified by?",
+        "sanskritTerm": "अष्टाङ्ग योग",
+        "options": [
+            "Shankara",
+            "Patanjali",
+            "Buddha",
+            "Kapila"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Patanjali codified the eight-fold path in the Yoga Sutras.",
+        "difficulty": "medium"
+    },
+    {
+        "id": 21,
+        "question": "What does 'Dharana' mean in yoga?",
+        "sanskritTerm": "धारणा",
+        "options": [
+            "Concentration",
+            "Meditation",
+            "Breath control",
+            "Posture"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Dharana is the practice of concentration, the sixth limb of yoga.",
+        "difficulty": "hard"
+    },
+    {
+        "id": 22,
+        "question": "'Atman' refers to?",
+        "sanskritTerm": "आत्मन्",
+        "options": [
+            "Body",
+            "Mind",
+            "Self/Soul",
+            "Ego"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Atman means the inner self or soul in Hindu philosophy.",
+        "difficulty": "medium"
+    },
+    {
+        "id": 23,
+        "question": "Which rasa represents the heroic sentiment?",
+        "sanskritTerm": "वीर रस",
+        "options": [
+            "Shringara",
+            "Vira",
+            "Raudra",
+            "Hasya"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Vira rasa represents heroism and courage.",
+        "difficulty": "medium"
+    },
+    {
+        "id": 24,
+        "question": "What is 'Avidya'?",
+        "sanskritTerm": "अविद्या",
+        "options": [
+            "Knowledge",
+            "Ignorance",
+            "Wisdom",
+            "Learning"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Avidya means ignorance or lack of true knowledge.",
+        "difficulty": "medium"
+    },
+    {
+        "id": 25,
+        "question": "The term 'Yajna' means?",
+        "sanskritTerm": "यज्ञ",
+        "options": [
+            "Prayer",
+            "Sacrifice/Ritual",
+            "Meditation",
+            "Chanting"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Yajna refers to sacrifice or ritual offerings.",
+        "difficulty": "easy"
+    },
+    {
+        "id": 26,
+        "question": "'Samadhi' in yoga represents?",
+        "sanskritTerm": "समाधि",
+        "options": [
+            "Breath control",
+            "Absorption/Enlightenment",
+            "Posture",
+            "Discipline"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Samadhi is the state of meditative absorption, the eighth limb of yoga.",
+        "difficulty": "hard"
+    },
+    {
+        "id": 27,
+        "question": "What does 'Bhakti' mean?",
+        "sanskritTerm": "भक्ति",
+        "options": [
+            "Devotion",
+            "Knowledge",
+            "Action",
+            "Discipline"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Bhakti means devotion or loving dedication to the divine.",
+        "difficulty": "easy"
+    },
+    {
+        "id": 28,
+        "question": "The Upanishads are also known as?",
+        "sanskritTerm": "उपनिषद्",
+        "options": [
+            "Shruti",
+            "Smriti",
+            "Vedanta",
+            "Purana"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Upanishads are also known as Vedanta, meaning 'end of the Vedas'.",
+        "difficulty": "hard"
+    },
+    {
+        "id": 29,
+        "question": "'Prana' literally means?",
+        "sanskritTerm": "प्राण",
+        "options": [
+            "Soul",
+            "Life force/Breath",
+            "Mind",
+            "Body"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Prana means life force or vital breath.",
+        "difficulty": "easy"
+    },
+    {
+        "id": 30,
+        "question": "Which philosophy means 'non-dualism'?",
+        "sanskritTerm": "अद्वैत",
+        "options": [
+            "Dvaita",
+            "Advaita",
+            "Vishishtadvaita",
+            "Samkhya"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Advaita means non-dualism, the philosophy that reality is one.",
+        "difficulty": "hard"
+    },
+    {
+        "id": 31,
+        "question": "'Karma Yoga' is the path of?",
+        "sanskritTerm": "कर्म योग",
+        "options": [
+            "Devotion",
+            "Knowledge",
+            "Selfless action",
+            "Meditation"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Karma Yoga is the path of selfless action and service.",
+        "difficulty": "medium"
+    },
+    {
+        "id": 32,
+        "question": "What is 'Maya' in Vedantic philosophy?",
+        "sanskritTerm": "माया",
+        "options": [
+            "Truth",
+            "Illusion",
+            "Reality",
+            "Wisdom"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Maya refers to the cosmic illusion or appearance of the material world.",
+        "difficulty": "hard"
+    },
+    {
+        "id": 33,
+        "question": "'Sannyasa' refers to?",
+        "sanskritTerm": "संन्यास",
+        "options": [
+            "Student life",
+            "Householder",
+            "Renunciation",
+            "Retirement"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Sannyasa is the stage of renunciation in the four ashramas.",
+        "difficulty": "medium"
+    },
+    {
+        "id": 34,
+        "question": "The Gayatri Mantra is dedicated to?",
+        "sanskritTerm": "गायत्री मन्त्र",
+        "options": [
+            "Shiva",
+            "Vishnu",
+            "Savitri (Sun)",
+            "Brahma"
+        ],
+        "correctAnswer": 2,
+        "explanation": "The Gayatri Mantra is dedicated to Savitri, the divine light of the sun.",
+        "difficulty": "medium"
+    },
+    {
+        "id": 35,
+        "question": "'Vairagya' means?",
+        "sanskritTerm": "वैराग्य",
+        "options": [
+            "Attachment",
+            "Detachment",
+            "Passion",
+            "Anger"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Vairagya means dispassion or detachment from worldly desires.",
+        "difficulty": "hard"
+    },
+    {
+        "id": 36,
+        "question": "How many chakras are traditionally recognized in yoga?",
+        "sanskritTerm": "चक्र",
+        "options": [
+            "5",
+            "6",
+            "7",
+            "8"
+        ],
+        "correctAnswer": 2,
+        "explanation": "There are traditionally seven main chakras in yogic philosophy.",
+        "difficulty": "medium"
+    },
+    {
+        "id": 37,
+        "question": "'Brahmacharya' in the four ashramas means?",
+        "sanskritTerm": "ब्रह्मचर्य",
+        "options": [
+            "Student life",
+            "Householder",
+            "Retirement",
+            "Renunciation"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Brahmacharya is the first ashrama, the student stage of life.",
+        "difficulty": "medium"
+    },
+    {
+        "id": 38,
+        "question": "What does 'Shakti' represent?",
+        "sanskritTerm": "शक्ति",
+        "options": [
+            "Power/Energy",
+            "Peace",
+            "Knowledge",
+            "Wealth"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Shakti represents divine feminine power and cosmic energy.",
+        "difficulty": "easy"
+    },
+    {
+        "id": 39,
+        "question": "'Dhyana' in yoga refers to?",
+        "sanskritTerm": "ध्यान",
+        "options": [
+            "Breath control",
+            "Posture",
+            "Meditation",
+            "Concentration"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Dhyana is meditation, the seventh limb of Ashtanga Yoga.",
+        "difficulty": "medium"
+    },
+    {
+        "id": 40,
+        "question": "The concept of 'Rta' in Vedic thought means?",
+        "sanskritTerm": "ऋत",
+        "options": [
+            "Chaos",
+            "Cosmic order",
+            "Destiny",
+            "Karma"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Rta represents the cosmic order and natural law in Vedic philosophy.",
+        "difficulty": "hard"
+    },
+    {
+        "id": 41,
+        "question": "'Jnana Yoga' is the path of?",
+        "sanskritTerm": "ज्ञान योग",
+        "options": [
+            "Devotion",
+            "Knowledge/Wisdom",
+            "Action",
+            "Discipline"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Jnana Yoga is the path of knowledge and wisdom.",
+        "difficulty": "medium"
+    },
+    {
+        "id": 42,
+        "question": "What is 'Abhyasa' in yogic practice?",
+        "sanskritTerm": "अभ्यास",
+        "options": [
+            "Detachment",
+            "Practice/Repetition",
+            "Meditation",
+            "Study"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Abhyasa means consistent practice or repetition.",
+        "difficulty": "hard"
+    },
+    {
+        "id": 43,
+        "question": "'Shanti' means?",
+        "sanskritTerm": "शान्ति",
+        "options": [
+            "Strength",
+            "Peace",
+            "Wisdom",
+            "Devotion"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Shanti means peace or tranquility.",
+        "difficulty": "easy"
+    },
+    {
+        "id": 44,
+        "question": "The Ramayana was composed by?",
+        "sanskritTerm": "रामायण",
+        "options": [
+            "Vyasa",
+            "Valmiki",
+            "Kalidasa",
+            "Tulsidas"
+        ],
+        "correctAnswer": 1,
+        "explanation": "The original Ramayana was composed by sage Valmiki.",
+        "difficulty": "easy"
+    },
+    {
+        "id": 45,
+        "question": "'Svadhyaya' refers to?",
+        "sanskritTerm": "स्वाध्याय",
+        "options": [
+            "Meditation",
+            "Self-study",
+            "Prayer",
+            "Service"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Svadhyaya means self-study or study of scriptures.",
+        "difficulty": "medium"
+    },
+    {
+        "id": 46,
+        "question": "What does 'Brahman' represent in Vedanta?",
+        "sanskritTerm": "ब्रह्मन्",
+        "options": [
+            "Individual soul",
+            "Ultimate reality",
+            "God",
+            "Creation"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Brahman is the ultimate, unchanging reality in Vedantic philosophy.",
+        "difficulty": "hard"
+    },
+    {
+        "id": 47,
+        "question": "'Niyama' in Yoga Sutras refers to?",
+        "sanskritTerm": "नियम",
+        "options": [
+            "Physical postures",
+            "Personal observances",
+            "Social restraints",
+            "Meditation"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Niyama represents personal observances, the second limb of yoga.",
+        "difficulty": "hard"
+    },
+    {
+        "id": 48,
+        "question": "How many Purusharthas (goals of life) are there?",
+        "sanskritTerm": "पुरुषार्थ",
+        "options": [
+            "2",
+            "3",
+            "4",
+            "5"
+        ],
+        "correctAnswer": 2,
+        "explanation": "There are four Purusharthas: Dharma, Artha, Kama, and Moksha.",
+        "difficulty": "medium"
+    },
+    {
+        "id": 49,
+        "question": "'Yama' in yoga represents?",
+        "sanskritTerm": "यम",
+        "options": [
+            "Breath control",
+            "Ethical restraints",
+            "Postures",
+            "Meditation"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Yama represents ethical restraints, the first limb of Ashtanga Yoga.",
+        "difficulty": "medium"
+    },
+    {
+        "id": 50,
+        "question": "What is 'Sat-Chit-Ananda'?",
+        "sanskritTerm": "सच्चिदानन्द",
+        "options": [
+            "Three gunas",
+            "Three doshas",
+            "Nature of Brahman",
+            "Three paths"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Sat-Chit-Ananda (Existence-Consciousness-Bliss) describes the nature of Brahman.",
+        "difficulty": "hard"
+    }
+]

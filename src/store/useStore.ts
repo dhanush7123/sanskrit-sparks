@@ -7,6 +7,7 @@ export interface User {
   name: string;
   avatar_url?: string;
   karma_points: number;
+  isGuest?: boolean;
 }
 
 interface AppState {
@@ -25,13 +26,13 @@ export const useStore = create<AppState>()(
       user: null,
       karmaPoints: 0,
       isAuthenticated: false,
-      setUser: (user) => set({ 
-        user, 
+      setUser: (user) => set({
+        user,
         isAuthenticated: !!user,
-        karmaPoints: user?.karma_points || 0 
+        karmaPoints: user?.karma_points || 0
       }),
-      addKarmaPoints: (points) => set((state) => ({ 
-        karmaPoints: state.karmaPoints + points 
+      addKarmaPoints: (points) => set((state) => ({
+        karmaPoints: state.karmaPoints + points
       })),
       resetKarmaPoints: () => set({ karmaPoints: 0 }),
       logout: () => set({ user: null, isAuthenticated: false, karmaPoints: 0 }),

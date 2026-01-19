@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Navbar } from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
 import { FloatingSanskrit } from '@/components/ui/FloatingSanskrit';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -18,6 +19,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import questionBank from '@/data/sanskrit-questions.json';
 
 interface Question {
   id: number;
@@ -101,13 +103,16 @@ interface LeaderboardEntry {
   score: number;
 }
 
-const mockLeaderboard: LeaderboardEntry[] = [
-  { rank: 1, name: "Arjuna", score: 850 },
-  { rank: 2, name: "Saraswati", score: 780 },
-  { rank: 3, name: "Valmiki", score: 720 },
-  { rank: 4, name: "Shakuntala", score: 650 },
-  { rank: 5, name: "Bharat", score: 600 },
-];
+const mockLeaderboard: LeaderboardEntry[] = [];
+
+// Utility function to shuffle and select random questions
+const getRandomQuestions = (count: number = 8): Question[] => {
+  const shuffled = [...questionBank].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, count).map((q, index) => ({
+    ...q,
+    id: index + 1
+  }));
+};
 
 const getRankIcon = (rank: number) => {
   switch (rank) {
@@ -133,35 +138,46 @@ const QuizPage = () => {
   const [timeLeft, setTimeLeft] = useState(30);
   const [answers, setAnswers] = useState<boolean[]>([]);
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
-  const [isGuest, setIsGuest] = useState(false);
+  const [isComponentGuest, setIsComponentGuest] = useState(false);
   const [showGuestDialog, setShowGuestDialog] = useState(false);
   const [guestName, setGuestName] = useState('');
   const [guestNameError, setGuestNameError] = useState('');
   const [questions, setQuestions] = useState<Question[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Fetch leaderboard from Supabase
+  // Fetch leaderboard from Supabase and Local Storage
   const fetchLeaderboard = async () => {
     try {
+      // 1. Fetch from Supabase
+      let supabaseData: LeaderboardEntry[] = [];
       const { data, error } = await (supabase
         .from('leaderboard' as any) as any) // Cast to any to bypass strict type checks for missing table
         .select('*')
         .order('score', { ascending: false })
         .limit(10);
 
-      if (error) {
-        console.warn('Leaderboard fetch error (table might be missing):', error);
-        return;
-      }
-
-      if (data && data.length > 0) {
-        const mappedData: LeaderboardEntry[] = data.map((entry: any, index: number) => ({
-          rank: index + 1,
+      if (!error && data) {
+        supabaseData = data.map((entry: any) => ({
+          rank: 0,
           name: entry.username || entry.name || 'Anonymous',
           score: entry.score,
         }));
-        setLeaderboard(mappedData);
       }
+
+      // 2. Fetch from Local Storage (Guest)
+      const localDataStr = localStorage.getItem('guest_leaderboard');
+      const localData: LeaderboardEntry[] = localDataStr ? JSON.parse(localDataStr) : [];
+
+      // 3. Merge and Sort
+      const allEntries = [...supabaseData, ...localData]
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 10) // Keep top 10 for display
+        .map((entry, index) => ({
+          ...entry,
+          rank: index + 1,
+        }));
+
+      setLeaderboard(allEntries);
     } catch (err) {
       console.error('Unexpected error fetching leaderboard:', err);
     }
@@ -175,72 +191,27 @@ const QuizPage = () => {
 
   const fetchQuestions = async () => {
     setIsLoading(true);
-    const geminiKey = import.meta.env.VITE_GEMINI_API_KEY;
-
-    if (!geminiKey) {
-      toast({
-        title: "API Key Error",
-        description: "Gemini API key is missing.",
-        variant: "destructive",
-      });
-      setIsLoading(false);
-      return false;
-    }
 
     try {
-      const prompt = `Generate 8 unique and engaging multiple-choice questions about Sanskrit language, Vedic culture, or Indian philosophy.
-      
-      Format the output strictly as a JSON array of objects with this structure:
-      [
-        {
-          "id": 1,
-          "question": "The question text",
-          "sanskritTerm": "Relevant Sanskrit word in Devanagari",
-          "options": ["Option 1", "Option 2", "Option 3", "Option 4"],
-          "correctAnswer": 0, // Index of correct option (0-3)
-          "explanation": "Brief explanation of the answer"
-        }
-      ]
-      
-      Do not include markdown formatting like \`\`\`json. Just the raw JSON array. Ensure questions are diverse.`;
+      // Get 8 random questions from the static question bank
+      const selectedQuestions = getRandomQuestions(8);
+      setQuestions(selectedQuestions);
 
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiKey}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }]
-        }),
+      toast({
+        title: "Questions Ready",
+        description: `${selectedQuestions.length} questions have been prepared for your journey.`,
       });
 
-      if (!response.ok) throw new Error('Failed to fetch questions');
-
-      const data = await response.json();
-      const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-
-      if (!text) throw new Error('No data received');
-
-      // Clean up markdown if present
-      const cleanText = text.replace(/```json/g, '').replace(/```/g, '').trim();
-      const newQuestions = JSON.parse(cleanText);
-
-      // Ensure IDs are correct
-      const formattedQuestions = newQuestions.map((q: any, index: number) => ({
-        ...q,
-        id: index + 1
-      }));
-
-      setQuestions(formattedQuestions);
       return true;
     } catch (error) {
-      console.error('Error fetching questions:', error);
+      console.error('Error loading questions:', error);
       toast({
-        title: "Wisdom Gathering Failed",
-        description: "Could not generate new questions. Using default set.",
+        title: "Error",
+        description: "Could not load questions. Please try again.",
         variant: "destructive",
       });
-      setQuestions(quizQuestions); // Fallback to default questions
+      // Fallback to hardcoded questions if needed
+      setQuestions(quizQuestions);
       return true;
     } finally {
       setIsLoading(false);
@@ -286,7 +257,7 @@ const QuizPage = () => {
     if (data) { setGuestNameError('Name taken'); return; }
     */
 
-    setIsGuest(true);
+    setIsComponentGuest(true);
     setShowGuestDialog(false);
     startQuiz();
   };
@@ -302,7 +273,7 @@ const QuizPage = () => {
       const timeBonus = Math.floor(timeLeft / 3);
       const points = 10 + timeBonus;
       setScore(score + points);
-      if (isAuthenticated && !isGuest) {
+      if (isAuthenticated && !user?.isGuest && !isComponentGuest) {
         addKarmaPoints(points);
       }
     }
@@ -324,26 +295,42 @@ const QuizPage = () => {
 
   const updateLeaderboard = async () => {
     // Determine player name
-    const playerName = user?.name || (isGuest ? guestName : 'Seeker');
-    const finalScore = (isAuthenticated && !isGuest ? karmaPoints : 0) + score;
+    const playerName = user?.name || (isComponentGuest ? guestName : 'Seeker');
+    // For guests, use the current game score. For auth users, use their total karma points.
+    const isGlobalGuest = user?.isGuest;
+    const finalScore = (isAuthenticated && !isGlobalGuest && !isComponentGuest) ? karmaPoints : score;
 
-    const newEntry: LeaderboardEntry = {
-      rank: 0,
-      name: playerName,
-      score: finalScore,
-    };
+    if (isComponentGuest || isGlobalGuest) {
+      // Save to Local Storage
+      const newEntry: LeaderboardEntry = {
+        rank: 0,
+        name: playerName,
+        score: finalScore,
+      };
 
-    // Update local state immediately for UI responsiveness
-    const updatedLeaderboard = [...leaderboard, newEntry]
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 5)
-      .map((entry, index) => ({ ...entry, rank: index + 1 }));
-    setLeaderboard(updatedLeaderboard);
+      const localDataStr = localStorage.getItem('guest_leaderboard');
+      let localData: LeaderboardEntry[] = localDataStr ? JSON.parse(localDataStr) : [];
 
-    // Persist to Supabase
-    try {
-      if (isAuthenticated || isGuest) {
-        // Try to insert into DB
+      // Add new entry
+      localData.push(newEntry);
+
+      // Sort and keep top 50 locally to prevent overflow
+      localData.sort((a, b) => b.score - a.score);
+      localData = localData.slice(0, 50);
+
+      localStorage.setItem('guest_leaderboard', JSON.stringify(localData));
+
+      toast({
+        title: "Score Recorded",
+        description: "Your achievement has been inscribed in the local chronicles.",
+      });
+
+      // Update UI
+      fetchLeaderboard();
+
+    } else if (isAuthenticated) {
+      // Persist to Supabase
+      try {
         const { error } = await (supabase
           .from('leaderboard' as any) as any)
           .insert([
@@ -362,12 +349,11 @@ const QuizPage = () => {
             variant: "destructive",
           });
         } else {
-          // If successful, re-fetch to get accurate global rankings
           fetchLeaderboard();
         }
+      } catch (err) {
+        console.error('Unexpected error updating leaderboard:', err);
       }
-    } catch (err) {
-      console.error('Unexpected error updating leaderboard:', err);
     }
   };
 
@@ -480,9 +466,12 @@ const QuizPage = () => {
                         </div>
                       ) : (
                         <div className="space-y-3">
-                          {leaderboard.map((entry) => (
-                            <div
-                              key={entry.rank}
+                          {leaderboard.map((entry, index) => (
+                            <motion.div
+                              key={`${entry.name}-${entry.rank}`} // Better key
+                              initial={{ opacity: 0, x: -20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: index * 0.1 }}
                               className={`flex items-center justify-between p-3 rounded-lg ${entry.rank <= 3 ? 'bg-primary/10' : 'bg-background/30'
                                 }`}
                             >
@@ -496,7 +485,7 @@ const QuizPage = () => {
                                   {entry.score}
                                 </span>
                               </div>
-                            </div>
+                            </motion.div>
                           ))}
                         </div>
                       )}
@@ -647,7 +636,7 @@ const QuizPage = () => {
                       {score}
                     </p>
                     <p className="font-mukta text-secondary mb-6">
-                      {isAuthenticated && !isGuest ? 'Karma Points Earned' : 'Points Scored'}
+                      {isAuthenticated && !user?.isGuest && !isComponentGuest ? 'Karma Points Earned' : 'Points Scored'}
                     </p>
 
                     <div className="flex justify-center gap-4 mb-6">
@@ -682,7 +671,7 @@ const QuizPage = () => {
                   >
                     Return Home
                   </Button>
-                  {isGuest && (
+                  {(isComponentGuest || user?.isGuest) && (
                     <Button
                       onClick={() => navigate('/auth')}
                       className="font-mukta"
@@ -734,6 +723,7 @@ const QuizPage = () => {
           </Dialog>
         </div>
       </div>
+      <Footer variant="simple" />
     </div>
   );
 };

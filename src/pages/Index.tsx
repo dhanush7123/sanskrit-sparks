@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { SparkParticles } from '@/components/ui/SparkParticles';
 import { FloatingSanskrit } from '@/components/ui/FloatingSanskrit';
 import { Navbar } from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
 import {
   Scroll,
   Brain,
@@ -34,9 +35,9 @@ const features = [
   },
   {
     icon: BookOpen,
-    title: 'Sacred Texts',
-    description: 'Read classical stories in Sanskrit & English',
-    path: '/articles',
+    title: 'Stories',
+    description: 'Explore Navarasa through timeless tales',
+    path: '/stories',
   },
 ];
 
@@ -160,52 +161,33 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Sanskrit Quote Section */}
-      <section className="py-20 px-4 relative z-20">
-        <div className="container mx-auto max-w-3xl">
+      {/* Sanskrit Quote - Simple & Elegant */}
+      <section className="py-12 px-4 relative z-20">
+        <div className="container mx-auto max-w-2xl text-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="talapatra-card p-10 text-center"
+            transition={{ duration: 0.5 }}
+            className="bg-background/40 backdrop-blur-sm border border-primary/10 rounded-xl p-8 shadow-sm"
           >
-            <div className="relative z-10">
-              <p className="text-3xl md:text-4xl font-cinzel text-foreground mb-4">
-                "वसुधैव कुटुम्बकम्"
-              </p>
-              <p className="font-mukta text-xl text-secondary italic mb-4">
-                "Vasudhaiva Kutumbakam"
-              </p>
-              <p className="font-mukta text-muted-foreground">
-                The world is one family — a timeless Sanskrit teaching
-                that reminds us of our universal connection.
-              </p>
-            </div>
+            <div className="text-primary/60 mb-2">✦</div>
+            <h3 className="text-3xl md:text-4xl font-cinzel font-bold text-foreground mb-2">
+              वसुधैव कुटुम्बकम्
+            </h3>
+            <p className="font-mukta text-lg text-secondary italic mb-2">
+              Vasudhaiva Kutumbakam
+            </p>
+            <p className="font-mukta text-sm text-muted-foreground">
+              "The world is one family"
+            </p>
+            <div className="text-primary/60 mt-2">✦</div>
           </motion.div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-10 px-4 border-t border-border relative z-20">
-        <div className="container mx-auto text-center space-y-4 max-w-4xl">
-          <div className="space-y-2">
-            <p className="text-xl md:text-2xl font-cinzel text-foreground">
-              न गुरोरधिकं तत्त्वं ।
-            </p>
-            <p className="font-mukta text-secondary italic text-sm">
-              (No truth is higher than the Guru)
-            </p>
-          </div>
-          <p className="font-mukta text-muted-foreground text-sm leading-relaxed">
-            Website by <span className="text-foreground font-semibold">Dhanush L.</span> &amp; <span className="text-foreground font-semibold">Avinash V. J.</span>
-            <br />
-            Guided by <span className="text-foreground font-semibold">Dr. Veena Divya Krishnappa</span> and <span className="text-foreground font-semibold">Dr. Rohini S. Hallikar</span>
-          </p>
-          <p className="font-mukta text-muted-foreground text-sm">
-            © 2026 Sanskrit Spark
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };

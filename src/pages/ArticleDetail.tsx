@@ -6,6 +6,7 @@ import { FloatingSanskrit } from '@/components/ui/FloatingSanskrit';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Languages, Volume2, VolumeX } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
+import Footer from '@/components/layout/Footer';
 
 interface Article {
   id: number;
@@ -358,9 +359,8 @@ const ArticleDetail = () => {
                 <h3 className="font-cinzel text-2xl text-secondary mb-6">
                   {showTranslation ? 'English Translation' : 'Sanskrit Story'}
                 </h3>
-                <div className={`font-mukta leading-relaxed whitespace-pre-line ${
-                  showTranslation ? 'text-lg' : 'text-xl'
-                }`}>
+                <div className={`font-mukta leading-relaxed whitespace-pre-line ${showTranslation ? 'text-lg' : 'text-xl'
+                  }`}>
                   {showTranslation ? (translatedText || article.englishStory) : article.sanskritStory}
                 </div>
               </div>
@@ -376,6 +376,7 @@ const ArticleDetail = () => {
           </motion.div>
         </div>
       </div>
+      <Footer variant="simple" />
     </div>
   );
 };

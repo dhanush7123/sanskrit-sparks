@@ -8,8 +8,8 @@ import AuthPage from "./pages/AuthPage";
 import TimelinePage from "./pages/TimelinePage";
 import QuizPage from "./pages/QuizPage";
 import ExplorePage from "./pages/ExplorePage";
-import ArticlesPage from "./pages/ArticlesPage";
-import ArticleDetail from "./pages/ArticleDetail";
+import StoriesPage from "./pages/StoriesPage";
+import StoryDetail from "./pages/StoryDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,15 +23,15 @@ const App = () => {
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter basename="/sanskrit-sparks">
+        <BrowserRouter basename={import.meta.env.BASE_URL}>
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/timeline" element={<TimelinePage />} />
             <Route path="/quiz" element={<QuizPage />} />
             <Route path="/explore" element={<ExplorePage />} />
-            <Route path="/articles" element={<ArticlesPage />} />
-            <Route path="/articles/:id" element={<ArticleDetail />} />
+            <Route path="/stories" element={<StoriesPage />} />
+            <Route path="/stories/:id" element={<StoryDetail />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
