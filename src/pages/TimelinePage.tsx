@@ -4,6 +4,12 @@ import { Navbar } from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { FloatingSanskrit } from '@/components/ui/FloatingSanskrit';
 
+import vedicEraImg from '@/assets/images/vedic-era.png';
+import paniniGrammarImg from '@/assets/images/panini-grammar.png';
+import kalidasaAgeImg from '@/assets/images/kalidasa-age.png';
+import philosophicalFlourishingImg from '@/assets/images/philosophical-flourishing.png';
+import sanskritRenaissanceImg from '@/assets/images/sanskrit-renaissance.png';
+
 interface TimelineEvent {
   id: number;
   era: string;
@@ -24,7 +30,7 @@ const timelineEvents: TimelineEvent[] = [
     period: '1500 - 500 BCE',
     description: 'Sanskrit emerges as the language of the Vedas, the oldest scriptures of Hinduism. The Rigveda, composed in this period, contains over 10,000 verses.',
     significance: 'Foundation of Indo-European linguistics and spiritual literature.',
-    image: `${import.meta.env.BASE_URL}images/vedic-era.png`,
+    image: vedicEraImg,
   },
   {
     id: 2,
@@ -34,7 +40,7 @@ const timelineEvents: TimelineEvent[] = [
     period: '6th - 4th Century BCE',
     description: 'Panini creates the Ashtadhyayi, containing 3,959 sutras that define Sanskrit grammar with mathematical precision.',
     significance: 'First formal grammar in human history, influencing modern linguistics.',
-    image: `${import.meta.env.BASE_URL}images/panini-grammar.png`,
+    image: paniniGrammarImg,
   },
   {
     id: 3,
@@ -44,7 +50,7 @@ const timelineEvents: TimelineEvent[] = [
     period: '4th - 5th Century CE',
     description: 'Kalidasa writes masterpieces like Shakuntala and Meghaduta. Sanskrit reaches its artistic zenith.',
     significance: 'Peak of Sanskrit poetry, drama, and artistic expression.',
-    image: `${import.meta.env.BASE_URL}images/kalidasa-age.png`,
+    image: kalidasaAgeImg,
   },
   {
     id: 4,
@@ -54,7 +60,7 @@ const timelineEvents: TimelineEvent[] = [
     period: '8th - 12th Century CE',
     description: 'Scholars like Adi Shankaracharya compose profound philosophical texts in Sanskrit, establishing Advaita Vedanta.',
     significance: 'Development of complex philosophical systems and commentaries.',
-    image: `${import.meta.env.BASE_URL}images/philosophical-flourishing.png`,
+    image: philosophicalFlourishingImg,
   },
   {
     id: 5,
@@ -64,7 +70,7 @@ const timelineEvents: TimelineEvent[] = [
     period: '19th Century - Present',
     description: 'Western scholars discover Sanskrit\'s connection to European languages. Digital preservation and AI translation efforts emerge.',
     significance: 'Global recognition and technological preservation of ancient wisdom.',
-    image: `${import.meta.env.BASE_URL}images/sanskrit-renaissance.png`,
+    image: sanskritRenaissanceImg,
   },
 ];
 
