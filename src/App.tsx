@@ -17,13 +17,13 @@ const queryClient = new QueryClient();
 const App = () => {
   // Debug: Check if React is mounting
   console.log('🚀 App component rendering...');
-  
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
+        <BrowserRouter basename="/sanskrit-sparks">
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<AuthPage />} />
