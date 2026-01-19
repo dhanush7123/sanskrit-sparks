@@ -51,7 +51,7 @@ const Index = () => {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 px-4">
+      <section className="relative pt-24 md:pt-32 pb-20 px-4">
         <div className="container mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 40 }}

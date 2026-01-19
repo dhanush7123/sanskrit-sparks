@@ -365,7 +365,7 @@ const QuizPage = () => {
       <FloatingSanskrit count={8} />
       <Navbar />
 
-      <div className="pt-24 pb-16 px-4">
+      <div className="pt-24 md:pt-32 pb-16 px-4">
         <div className="container mx-auto max-w-4xl">
           <AnimatePresence mode="wait">
             {gameState === 'start' && (
