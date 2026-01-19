@@ -24,7 +24,7 @@ const timelineEvents: TimelineEvent[] = [
     period: '1500 - 500 BCE',
     description: 'Sanskrit emerges as the language of the Vedas, the oldest scriptures of Hinduism. The Rigveda, composed in this period, contains over 10,000 verses.',
     significance: 'Foundation of Indo-European linguistics and spiritual literature.',
-    image: '/images/vedic-era.png',
+    image: `${import.meta.env.BASE_URL}images/vedic-era.png`,
   },
   {
     id: 2,
@@ -34,7 +34,7 @@ const timelineEvents: TimelineEvent[] = [
     period: '6th - 4th Century BCE',
     description: 'Panini creates the Ashtadhyayi, containing 3,959 sutras that define Sanskrit grammar with mathematical precision.',
     significance: 'First formal grammar in human history, influencing modern linguistics.',
-    image: '/images/panini-grammar.png',
+    image: `${import.meta.env.BASE_URL}images/panini-grammar.png`,
   },
   {
     id: 3,
@@ -44,7 +44,7 @@ const timelineEvents: TimelineEvent[] = [
     period: '4th - 5th Century CE',
     description: 'Kalidasa writes masterpieces like Shakuntala and Meghaduta. Sanskrit reaches its artistic zenith.',
     significance: 'Peak of Sanskrit poetry, drama, and artistic expression.',
-    image: '/images/kalidasa-age.png',
+    image: `${import.meta.env.BASE_URL}images/kalidasa-age.png`,
   },
   {
     id: 4,
@@ -54,7 +54,7 @@ const timelineEvents: TimelineEvent[] = [
     period: '8th - 12th Century CE',
     description: 'Scholars like Adi Shankaracharya compose profound philosophical texts in Sanskrit, establishing Advaita Vedanta.',
     significance: 'Development of complex philosophical systems and commentaries.',
-    image: '/images/philosophical-flourishing.png',
+    image: `${import.meta.env.BASE_URL}images/philosophical-flourishing.png`,
   },
   {
     id: 5,
@@ -64,7 +64,7 @@ const timelineEvents: TimelineEvent[] = [
     period: '19th Century - Present',
     description: 'Western scholars discover Sanskrit\'s connection to European languages. Digital preservation and AI translation efforts emerge.',
     significance: 'Global recognition and technological preservation of ancient wisdom.',
-    image: '/images/sanskrit-renaissance.png',
+    image: `${import.meta.env.BASE_URL}images/sanskrit-renaissance.png`,
   },
 ];
 

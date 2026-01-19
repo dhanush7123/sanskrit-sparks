@@ -150,8 +150,8 @@ export const Navbar = () => {
                         <Link
                           to={link.path}
                           className={`font-mukta text-lg transition-colors ${location.pathname === link.path
-                              ? 'text-primary font-semibold pl-2 border-l-2 border-primary'
-                              : 'text-foreground hover:text-primary'
+                            ? 'text-primary font-semibold pl-2 border-l-2 border-primary'
+                            : 'text-foreground hover:text-primary'
                             }`}
                         >
                           {link.label}
