@@ -32,8 +32,8 @@ const ExplorePage = () => {
     }
 
     try {
-      // Using gemini-flash-latest (stable alias) to avoid rate limits on experimental models
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${geminiKey}`, {
+      // Using gemini-1.5-flash for better stability and performance
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiKey}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
