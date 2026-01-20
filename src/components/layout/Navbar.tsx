@@ -46,7 +46,7 @@ export const Navbar = () => {
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3">
-            <div className="hidden sm:flex items-center justify-center h-10 w-10 rounded-lg bg-background border border-border shadow-sm overflow-hidden">
+            <div className="flex items-center justify-center h-10 w-10 rounded-lg bg-background border border-border shadow-sm overflow-hidden">
               <img
                 src={`${import.meta.env.BASE_URL}college-logo.png`}
                 alt="College logo"

@@ -115,10 +115,18 @@
   .talapatra-card {
     @apply relative overflow-hidden;
     background: linear-gradient(135deg, hsl(var(--palm-leaf)) 0%, hsl(var(--parchment-dark)) 100%);
-    clip-path: polygon(2% 5%, 98% 2%, 100% 95%, 3% 98%);
+    /* Mobile: Minimal clipping to prevent text loss */
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
     box-shadow: 
       inset 0 2px 4px hsla(var(--ink), 0.1),
       0 4px 20px hsla(var(--ink), 0.15);
+  }
+
+  @media (min-width: 768px) {
+    .talapatra-card {
+      /* Desktop: Original artistic clipping */
+      clip-path: polygon(2% 5%, 98% 2%, 100% 95%, 3% 98%);
+    }
   }
 
   .talapatra-card::before {
