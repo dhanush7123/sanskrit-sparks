@@ -1,7 +1,11 @@
 
 import fs from 'fs';
 
-const apiKey = 'AIzaSyAO98DMrf3tJ_e9oyT67537PfeMhCe7w_k';
+const apiKey = process.env.GEMINI_API_KEY;
+if (!apiKey) {
+    console.error('Error: GEMINI_API_KEY is not set in environment variables.');
+    process.exit(1);
+}
 const url = `https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`;
 
 async function listModels() {
